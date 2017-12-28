@@ -1,0 +1,9 @@
+language.code=en_us
+
+#mainmenu.play=Play
+mainmenu.newgame=New game
+mainmenu.loadgame=Load game
+mainmenu.quit=Quit
+
+pausemenu.save=Save game
+pausemenu.tomain=Exit to menu

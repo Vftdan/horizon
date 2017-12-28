@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="8" tileheight="8" nextobjectid="1">
+ <tileset firstgid="1" name="tileset" tilewidth="8" tileheight="8" tilecount="64" columns="8">
+  <image source="ter.png" width="64" height="64"/>
+ </tileset>
+ <layer name="sky_bg" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eJztw7ENACAMA7Aspfx/MXeg2JInyaiqFj2qVl5V1bJXVVVVVVVVVVVV/e4DMZB0AQ==
+  </data>
+ </layer>
+ <layer name="sky_clouds" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eJzt1kkKgDAQBMC4/P/NehEkHtwG44QqyL0Thp6UAkQZWgegzOsZqzM1TXS0z3gnm/n6ToY5AvKI6u+6m6J6qdf90uu9epNh557N0tO/HUCkTF1kR8fxlrzR2/xsPfj3DgQAAAAAAAAAAIArFjn2AG4=
+  </data>
+ </layer>
+ <layer name="solid" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eJztmdGuwyAIhr3d1tP3f9zlJDVhBBCsVLf+X8LN2U7rh9bCLAUAAAAAAAAAAAAAAAAAAFE2JSLfjVxjFtGxW/HXiNXyYY3f69QbM/Ngee+Jobm/jriKV9Hndxf+5l3H1pqR/Kv384ireJbPHNBx13G2HF9CWLnYhf+v3o8jruJR5Bx4/enYaUj54P50zq/2ptAc0LFSf2mO6dil69Hged3K55zPpOZeGmf1l+bYGvuDBc/rVubOOaeORfPnPp6x0+/R3FL/lfD6R65Hg/uvCN+n6P53Zr5+wf8sdQ9Yzd96T0vvv17qHvDt/r1jr8/ASv6t+l+rdc/cb0V/qUZv9Sq991vFv9WjtPx7HFb098y/Vvv33JP2PzOxejRPf9vTp67kr/Wp3uiph1by13p/aZ1LMcK/FZnwvtfqcSO9nwavfyORAe3NrNB6v4g/dbHqCmkfysqB5eUND1pdqflre3AG2f6Sl+d3Vendm8HVcx/9XX1U3a2R5f2PtqZ753+mfylj/K262nO+kEHEP0LUv1V/Zp0Ledf7CP/W/FqfZ54LjXjeOT31tZWb7N+LR6x5Cj9TieRAqr+zGeVNr8fPwyJ5mHUmOhJeY7d6DanvOPsczoY+U61eQ+o7fomMOuubuKs35a7eEnd2H8Ubk6UsFw==
+  </data>
+ </layer>
+ <layer name="game_dynamic" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20MH6AAAAAAAAAAAAAAAAAAAACAtwFAAAAB
+  </data>
+ </layer>
+ <layer name="objs" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eJzt10EOgyAQBVBv0Gpb739UWXehNaT5gXkvYc18DDKzLAAAAADQZ08XEPRu69XWJ11I0JYuIEz+2qrnX9MFFPAI7v0suvc/Jb9nj1/qHjUbwDfzrfm2sqv8s7/35hu4NuusRl6yB0u/b3owPZgeJH8PEypmhjv0nePyfzt3dj6znZ17DADQ7wBbrAKd
+  </data>
+ </layer>
+</map>
