@@ -44,6 +44,7 @@ import io.github.vftdan.horizon.screens.*;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -596,9 +597,14 @@ public class GAME extends AbstractAppAdapter {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
+	long lastZoomTimeStamp = (new Date()).getTime();
 	@Override
 	public boolean zoom(float initialDistance, float distance) {
+		long ts = (new Date()).getTime();
+		if(ts < lastZoomTimeStamp) lastZoomTimeStamp = ts;
+		if(ts - lastZoomTimeStamp < 100) return false;
+		lastZoomTimeStamp = ts;
 		if(distance < initialDistance) return keyDown(Keys.MINUS);
 		else return keyDown(Keys.PLUS);
 	}

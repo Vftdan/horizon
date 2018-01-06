@@ -5,6 +5,7 @@
  * API.putTextField(String value, function onkeytyped({int keyCode, String value})): void;
  * API.onSuccess(): void;
  * API.onMistake(): void;
+ * API.log(Object value): void;
  * API.version = "0.0";
  */
 (function(){

@@ -1,7 +1,7 @@
 package io.github.vftdan.horizon.scripting;
 
-import javax.script.Bindings;
-import javax.script.ScriptException;
+//import javax.script.Bindings;
+//import javax.script.ScriptException;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.*;
 
 import io.github.vftdan.horizon.GAME;
 import io.github.vftdan.horizon.screens.PuzzleScreen;
+import io.github.vftdan.horizon.scripting.IScriptExecutor.IJsObject;
 
 public final class PuzzleScreenAPI {
 	private static Stage stage;
@@ -40,18 +41,21 @@ public final class PuzzleScreenAPI {
 		tb.addListener(new ClickListener(){
 			public void clicked(InputEvent e, float x, float y) {
 				try {
-					Bindings b = screen.executor.engine.createBindings();
+					IJsObject b = screen.executor.instantiateJsObject();
 					b.put("x", x);
 					b.put("y", y);
-					(new NashornScriptExecutor.JsObject(screen.executor, o)).execute(new Object[]{b});
-				} catch (ScriptException ex) {
+					//(new NashornScriptExecutor.JsObject(screen.executor, o)).execute(new Object[]{b});
+					screen.executor.instantiateJsObject(o).execute(new Object[]{b});
+					//System.out.println("Executed button");
+				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
 		});
 	}
-	public static void putButtonGroup(Bindings dict) {
+	public static void putButtonGroup(Object o) {
 		//(new ScriptExecutor.JsObject(screen.executor, dict));
+		IJsObject dict = screen.executor.instantiateJsObject(o);
 		for(String k: dict.keySet()) {
 			putButton(k, dict.get(k));
 		}
@@ -65,15 +69,21 @@ public final class PuzzleScreenAPI {
 		tf.setTextFieldListener(new TextFieldListener (){
 			public void keyTyped (TextField textField, char key) {
 				try {
-					Bindings b = screen.executor.engine.createBindings();
+					//Bindings b = screen.executor.engine.createBindings();
+					IJsObject b = screen.executor.instantiateJsObject();
 					b.put("keyCode", (int)key);
 					b.put("value", textField.getText());
-					(new NashornScriptExecutor.JsObject(screen.executor, o)).execute(new Object[]{b});
-				} catch (ScriptException ex) {
+					//(new NashornScriptExecutor.JsObject(screen.executor, o)).execute(new Object[]{b});
+					screen.executor.instantiateJsObject(o).execute(new Object[]{b});
+					//System.out.println("Executed text field");
+				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
 		});
+	}
+	public static void log(Object s) {
+		System.out.println(s);
 	}
 	public static void onSuccess() {
 		screen.terminate(1, "Solved!");

@@ -9,12 +9,14 @@ import com.badlogic.gdx.utils.Timer;
 import io.github.vftdan.horizon.GAME;
 import io.github.vftdan.horizon.GameSaver;
 import io.github.vftdan.horizon.scripting.PuzzleScreenAPI;
+import io.github.vftdan.horizon.scripting.ScriptExecutorManager;
+import io.github.vftdan.horizon.scripting.IScriptExecutor;
 import io.github.vftdan.horizon.scripting.NashornScriptExecutor;
-import io.github.vftdan.horizon.scripting.WhitelistClassFilter;
+//import io.github.vftdan.horizon.scripting.WhitelistClassFilter;
 
 public class PuzzleScreen extends AppScreen {
 	//TODO
-	public NashornScriptExecutor executor;
+	public IScriptExecutor executor;
 	public int childSpacing = 15;
 	public int elemOffsetY = (int)GAME.instance.screenDims.y - 30;
 	public int elemOffsetX = 30;
@@ -22,8 +24,8 @@ public class PuzzleScreen extends AppScreen {
 		this.screenName = "Puzzle screen";
 		this.guiStage = new Stage();
 		this.inpProcArray.add(guiStage);
-		NashornScriptExecutor.classFilter = new WhitelistClassFilter(){{add("io.github.vftdan.horizon.scripting.PuzzleScreenAPI");}};
-		executor = new NashornScriptExecutor();
+		//NashornScriptExecutor.classFilter = new WhitelistClassFilter(){{add("io.github.vftdan.horizon.scripting.PuzzleScreenAPI");}};
+		executor = ScriptExecutorManager.instantiateExecutor();
 	}
 	public void startAnim(Timer.Task callback) {
 		try {
@@ -34,7 +36,7 @@ public class PuzzleScreen extends AppScreen {
 			//executor.eval("API.putButtonGroup({'Right': function(){API.onSuccess()}, 'Wrong': function(){API.onMistake()}});");
 			try {
 				executor.eval(GameSaver.child("testtask.js").readString());
-			} catch(ScriptException e) {
+			} catch(Exception e) {
 				e.printStackTrace();
 				terminate(2, e);
 			}

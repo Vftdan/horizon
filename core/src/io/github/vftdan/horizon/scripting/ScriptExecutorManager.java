@@ -8,14 +8,14 @@ public class ScriptExecutorManager {
 	public static void setExecutorClass(ExecutorClasses c) {
 		curExecutor = c;
 	}
-	public static IScriptExecutor instaniateExecutor(ExecutorClasses c) {
+	public static IScriptExecutor instantiateExecutor(ExecutorClasses c) {
 		switch(c) {
 			case NASHORN: return new NashornScriptExecutor();
-			case RHINO: return null;
+			case RHINO: return new RhinoScriptExecutor();
 			default: return null;
 		}
 	}
-	public static IScriptExecutor instaniateExecutor() {
-		return instaniateExecutor(curExecutor);
+	public static IScriptExecutor instantiateExecutor() {
+		return instantiateExecutor(curExecutor);
 	}
 }

@@ -52,8 +52,7 @@ project(":android") {
     configurations { natives }
 
     dependencies {
-        //compile fileTree(dir: 'libs', include: 'nashorn.jar')
-        compile project(":core")
+        compile fileTree(dir: 'libs', include: 'js.jar'), project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
@@ -104,6 +103,7 @@ project(":core") {
 
 
     dependencies {
+		compile fileTree(dir: 'libs', include: 'js.jar')
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     }

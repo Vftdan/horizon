@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -57,10 +58,20 @@ public class NashornScriptExecutor implements IScriptExecutor {
 	public JsObject toJsArray(Object[] a) throws ScriptException {
 		return toJsArray(Arrays.asList(a));
 	}
+	public JsObject instantiateJsObject(Object b) {
+		return new JsObject(this, b);
+	}
+	public JsObject instantiateJsObject() {
+		return new JsObject(this);
+	}
+	
+	public boolean isJsException(Exception e) {
+		return e instanceof ScriptException;
+	}
 	
 	public static class JsObject implements IJsObject /*implements Iterable<Object>*/ {
 		public NashornScriptExecutor defaultExecutor;
-		public Object obj;
+		Object obj;
 		public Bindings scope;
 		public JsObject(NashornScriptExecutor e, Object b, Bindings s) {
 			defaultExecutor = e;
@@ -82,7 +93,9 @@ public class NashornScriptExecutor implements IScriptExecutor {
 		public JsObject execute(Bindings args) throws ScriptException {
 			scope.put("__obj", obj);
 			scope.put("__args", args);
-			return new JsObject(defaultExecutor, defaultExecutor.engine.eval("__obj.apply(this, __args)", scope));
+			//System.out.println(obj);
+			//System.out.println(args);
+			return new JsObject(defaultExecutor, defaultExecutor.engine.eval("__obj.apply(this, __args);/*throw JSON.stringify([__obj, __obj.apply, Object.keys(this), __args]);*/", scope));
 		}
 		public JsObject execute(IJsObject args) throws ScriptException {
 			return execute((Bindings)args.getObject());
@@ -91,21 +104,22 @@ public class NashornScriptExecutor implements IScriptExecutor {
 			scope.put("__obj", obj);
 			return new JsObject(defaultExecutor, defaultExecutor.engine.eval("__obj()", scope));
 		}
-		public void execute(Object... objects) throws ScriptException {
+		public IJsObject execute(Object... objects) throws ScriptException {
 			Bindings b = defaultExecutor.engine.createBindings();
 			int i = 0;
 			for(Object o: objects) {
-				b.put(i + "", o);
+				b.put(i + "", o instanceof IJsObject ? ((IJsObject)o).getObject() : o);
 				i++;
 			}
+			//System.out.println(i);
 			b.put("length", i);
-			execute(b);
+			return execute(b);
 		}
-		public boolean isBindings() {
-			return obj instanceof Bindings;
+		public boolean isMap() {
+			return obj instanceof Map<?, ?>;
 		}
 		public boolean isConstructor() throws ScriptException {
-			if(!isBindings() || !isFunction()) return false;
+			if(!isMap() || !isFunction()) return false;
 			Bindings b = (Bindings)obj;
 			return b.containsKey("prototype");
 		}
@@ -198,6 +212,39 @@ public class NashornScriptExecutor implements IScriptExecutor {
 			
 			return null;
 		}*/
+		@Override
+		public Object get(String key) {
+			if(obj instanceof Map<?, ?>) {
+				return ((Map<?, ?>)obj).get(key);
+			}
+			// TODO use reflect
+			return null;
+		}
+		@Override
+		public void put(String key, IJsObject o) {
+			put(key, o.getObject());
+		}
+		@Override
+		public void put(String key, Object o) {
+			//System.out.println(obj.getClass());
+			if(obj instanceof Map<?, ?>) {
+				try {
+					@SuppressWarnings("unchecked")
+					Map<Object, Object> hm = (Map<Object, Object>)obj;
+					hm.put(key, o);
+					return;
+				} catch(ClassCastException e) {
+					//Continue function
+				}
+			}
+			// TODO throw something
+			System.out.println("Unable to put");
+			throw new RuntimeException("Unable to put");
+		}
+		@Override
+		public Set<String> keySet() {
+			return ((Bindings)obj).keySet();
+		}
 	}
 
 	@Override

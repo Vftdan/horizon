@@ -1,9 +1,6 @@
 package io.github.vftdan.horizon.scripting;
 
-import javax.script.Bindings;
-
-
-
+import java.util.Set;
 
 public interface IScriptExecutor {
 
@@ -19,21 +16,33 @@ public interface IScriptExecutor {
 	
 	public String getJavaPackageImportCode(String pkg);
 	
+	public IJsObject instantiateJsObject(Object o);
+
+	public IJsObject instantiateJsObject();
+	
+	public boolean isJsException(Exception e);
+	
 	public interface IJsObject {
 		
 		public Object getObject();
 		
-		public boolean isFunction() throws Exception;
+		public Object get(String key);
 		
-		public IJsObject execute(Bindings args) throws Exception;
+		public void put(String key, IJsObject o);
+		
+		public void put(String key, Object o);
+		
+		public Set<String> keySet();
+		
+		public boolean isFunction() throws Exception;
 		
 		public IJsObject execute(IJsObject args) throws Exception;
 		
 		public IJsObject execute() throws Exception;
 		
-		public void execute(Object... objects) throws Exception;
+		public IJsObject execute(Object... objects) throws Exception;
 		
-		public boolean isBindings();
+		public boolean isMap();
 		
 		public boolean isConstructor() throws Exception;
 		
@@ -44,6 +53,8 @@ public interface IScriptExecutor {
 		public IJsObject execMethod(String m) throws Exception;
 		
 		public String toString();
+		
+		public Object to(Class<?> c) throws InstantiationException, IllegalAccessException;
 		
 	}
 	

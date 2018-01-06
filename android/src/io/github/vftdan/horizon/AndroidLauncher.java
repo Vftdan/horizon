@@ -5,6 +5,8 @@ package io.github.vftdan.horizon;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import io.github.vftdan.horizon.scripting.ScriptExecutorManager;
+import io.github.vftdan.horizon.scripting.ScriptExecutorManager.ExecutorClasses;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 public class AndroidLauncher extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
+		ScriptExecutorManager.setExecutorClass(ExecutorClasses.RHINO);
 		if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
 			GameSaver.allowExternal = false;
 			this.requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE"}, 200);
