@@ -23,7 +23,11 @@ public class NashornScriptExecutor implements IScriptExecutor {
 	public static WhitelistClassFilter classFilter;
 	public NashornScriptExecutor(Bindings s) {
 		//engine = (new ScriptEngineManager()).getEngineByName("js");
-		engine = (new NashornScriptEngineFactory()).getScriptEngine(classFilter);
+		if(classFilter == null) {
+			engine = (new NashornScriptEngineFactory()).getScriptEngine();
+		} else {
+			engine = (new NashornScriptEngineFactory()).getScriptEngine(classFilter);
+		}
 		scope = s;
 	}
 	public NashornScriptExecutor() {

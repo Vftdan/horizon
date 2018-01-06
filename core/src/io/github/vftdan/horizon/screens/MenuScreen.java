@@ -12,8 +12,8 @@ import io.github.vftdan.horizon.GAME;
 public class MenuScreen extends GameScreen {
 	public Table table = new Table();
 	public ArrayList<Actor> UIactors = new ArrayList<Actor>();
-	public int actorWidth = 200;
-	public int childSpacing = 30;
+	public int actorWidth = (int)((int)200 * GAME.instance.uiScale);
+	public int childSpacing = (int)((int)30 * GAME.instance.uiScale);
 	public MenuScreen(Stage guiStage) {
 		this.screenName = "Menu screen";
 		this.guiStage = guiStage;

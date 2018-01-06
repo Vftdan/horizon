@@ -27,6 +27,7 @@ public abstract class AbstractAppAdapter extends ApplicationAdapter implements I
 	public ShaderProgram shd;
 	public Skin skin;
 	public InputMultiplexer inpProcessors = new InputMultiplexer();
+	public double uiScale = 1;
 	@Override
 	public void dispose() {
 		for(Disposable d: toDispose) {
@@ -47,6 +48,7 @@ public abstract class AbstractAppAdapter extends ApplicationAdapter implements I
 	public void create() {
 		screenDims.x = Gdx.graphics.getWidth();
 		screenDims.y = Gdx.graphics.getHeight();
+		uiScale = Math.min(screenDims.x / 640, screenDims.y / 480);
 	}
 	@Override
 	public void resize(int width, int height){

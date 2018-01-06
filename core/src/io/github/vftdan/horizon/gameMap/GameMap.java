@@ -148,7 +148,7 @@ public class GameMap {
 					mainChunk.add(obj);
 					//System.out.println(mainChunk.size());
 				}
-				if(!bm[i][j].isOpaque() && !bm[i][j].isSemi()) {
+				if(!bm[i][j].isOpaque() && !bm[i][j].isSemi() && !(j == sf[1].x && i == sf[1].y)) {
 					obj = new FloorGameObject();
 					obj.setCellPos(j, i);
 					obj.chunk = mainChunk;

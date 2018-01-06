@@ -8,9 +8,9 @@ import com.badlogic.gdx.files.FileHandle;
 import io.github.vftdan.horizon.gameMap.objects.PlayerGameObject;
 
 public final class GameSaver {
-	private static FileHandle savepath = genSavePath();
 	//public static PlayerGameObject player;
 	public static boolean allowExternal = true;
+	private static FileHandle savepath = genSavePath();
 	public static void regen() {
 		FileHandle fh = genSavePath();
 		if(fh != null) savepath = fh;

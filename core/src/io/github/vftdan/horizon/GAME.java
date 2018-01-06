@@ -214,6 +214,7 @@ public class GAME extends AbstractAppAdapter {
 		
         Gdx.input.setInputProcessor(inpProcessors);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin.getFont("default-font").getData().setScale((float)uiScale);
 		MenuScreen mainMenu, pauseMenu;
 		//GameScreen gameMain;
 		//final GameMapGenerator gmg = new GameMapGenerator();
@@ -229,10 +230,10 @@ public class GAME extends AbstractAppAdapter {
 		ExitGameObject.setDefaultTextureRegion(new TextureRegion(terPng, 32, 0, 8, 8));*/
 		PuzzleGateGameObject.setDefaultTextureRegion(atlas.findRegion("puzzleDoor"));
 		PuzzleGateGameObject.setDefaultTextureRegion(atlas.findRegion("puzzleDoorOpened"), 1);
+		ExitGameObject.setDefaultTextureRegion(atlas.findRegion("exit"));
 		FloorGameObject.setDefaultTextureRegion(atlas.findRegion("floor"));
 		WallGameObject.setDefaultTextureRegion(atlas.findRegion("wall"));
 		WallGameObject.setDefaultTextureRegion(atlas.findRegion("wallSide"), 1);
-		ExitGameObject.setDefaultTextureRegion(atlas.findRegion("exit"));
 		
 		//System.out.println(new Vector2(0, 0).equals(new Vector2(0, 0)));
 		//new HashSet<Vector2>(){{add(new Vector2(0, 0)); System.out.println(contains(new Vector2(0, 0)));}};
@@ -473,7 +474,8 @@ public class GAME extends AbstractAppAdapter {
 		}
         if(guiStage != null) {
 			guiStage.act(1.0f / 60.0f);
-			guiStage.getViewport().update((int)screenDims.x, (int)screenDims.y);
+			Viewport guiViewport = guiStage.getViewport();
+			guiViewport.update((int)screenDims.x, (int)screenDims.y);
         	guiStage.draw();
         }
 	}
