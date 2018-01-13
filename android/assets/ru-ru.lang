@@ -1,4 +1,9 @@
 language.code=ru_ru
 
-mainmenu.play=Играть
+mainmenu.newgame=Новая игра
+mainmenu.loadgame=Загрузить игру
 mainmenu.quit=Выйти
+
+pausemenu.resume=Продолжить
+pausemenu.save=Сохранить
+pausemenu.tomain=Выйти в меню

@@ -213,7 +213,7 @@ public class GAME extends AbstractAppAdapter {
 		initializer = new GameInitializer();
 		
         Gdx.input.setInputProcessor(inpProcessors);
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = new Skin(Gdx.files.internal("uiskin1.json"));
         skin.getFont("default-font").getData().setScale((float)uiScale);
 		MenuScreen mainMenu, pauseMenu;
 		//GameScreen gameMain;
@@ -301,7 +301,12 @@ public class GAME extends AbstractAppAdapter {
 		screens.put("gameMain", gameMain);*/
 		final TextField savetf = new TextField("currentsave.bin", skin);
 		pauseMenu = new MenuScreen(){{
-			TextButton save = new TextButton(curLang.get("pausemenu.save"), skin), tomain = new TextButton(curLang.get("pausemenu.tomain"), skin);
+			TextButton resume = new TextButton(curLang.get("pausemenu.resume"), skin), save = new TextButton(curLang.get("pausemenu.save"), skin), tomain = new TextButton(curLang.get("pausemenu.tomain"), skin);
+			resume.addListener(new ClickListener(){
+				public void clicked(InputEvent e, float x, float y) {
+					AppScreen.openScreen(screens.get("gameMain"));
+				}
+			});
 			save.addListener(new ClickListener(){
 				public void clicked(InputEvent e, float x, float y) {
 					((GameScreen)screens.get("gameMain")).player.prepareData();
@@ -310,10 +315,10 @@ public class GAME extends AbstractAppAdapter {
 			});
 			tomain.addListener(new ClickListener(){
 				public void clicked(InputEvent e, float x, float y) {
-					AppScreen.openScreen(instance.screens.get("mainMenu"));
+					AppScreen.openScreen(screens.get("mainMenu"));
 				}
 			});
-			putActors(savetf, save, tomain);
+			putActors(resume, savetf, save, tomain);
 		}};
 		screens.put("pause", pauseMenu);
 		
