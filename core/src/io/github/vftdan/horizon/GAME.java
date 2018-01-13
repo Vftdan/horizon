@@ -215,7 +215,7 @@ public class GAME extends AbstractAppAdapter {
         Gdx.input.setInputProcessor(inpProcessors);
         skin = new Skin(Gdx.files.internal("uiskin1.json"));
         skin.getFont("default-font").getData().setScale((float)uiScale);
-		MenuScreen mainMenu, pauseMenu;
+		MenuScreen mainMenu, pauseMenu, newGameMenu, languageMenu;
 		//GameScreen gameMain;
 		//final GameMapGenerator gmg = new GameMapGenerator();
 		//gmg.initRand(new GameSession(), 2);
@@ -321,6 +321,11 @@ public class GAME extends AbstractAppAdapter {
 			putActors(resume, savetf, save, tomain);
 		}};
 		screens.put("pause", pauseMenu);
+		
+		languageMenu = new MenuScreen(){
+			TextButton ok = new TextButton(curLang.get("langmenu.ok"), skin){{setWidth(100);}};
+			
+		};
 		
 		mainMenu = new MenuScreen(){
 			//Vector2 playButPos, quitButPos;

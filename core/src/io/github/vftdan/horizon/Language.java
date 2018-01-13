@@ -4,13 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.*;
 
 import com.badlogic.gdx.files.FileHandle;
 
 public class Language {
 	public static Language current;
+	private static Set<WeakReference<ILanguageChangeable>> changeables = new HashSet<WeakReference<ILanguageChangeable>>();
 	public HashMap<String, String> fileData;
 	public static final Pattern fileLnRe = Pattern.compile("^([\\w\\.]+)\\=(.*)$");
 	public static HashMap<String, Language> languages = new HashMap<String, Language>();
@@ -54,7 +58,33 @@ public class Language {
 			for(int i = 0; i < A.length; i++) {
 				s[i] = A[i].toString();
 			}
-			return k + String.join(", ", s);
+			return k + StringProcessor.join(", ", s);
 		}
+	}
+	
+	public static void addChangeables(ILanguageChangeable... A) {
+		for(ILanguageChangeable c: A) {
+			changeables.add(new WeakReference<ILanguageChangeable>(c));
+		}
+	}
+	
+	public static void languageChange(Language lang) {
+		for(WeakReference<ILanguageChangeable> cref: changeables) {
+			ILanguageChangeable c = cref.get();
+			if(c == null) continue;
+			try {
+				c.chLanguage(lang);
+			} catch(RuntimeException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void languageChange() {
+		languageChange(current);
+	}
+	
+	public static interface ILanguageChangeable {
+		public void chLanguage(Language lang);
 	}
 }

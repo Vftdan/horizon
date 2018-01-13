@@ -11,10 +11,13 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import io.github.vftdan.horizon.Language;
+
 import static io.github.vftdan.horizon.GAME.instance;
 
 
-public class AppScreen {
+public class AppScreen implements Language.ILanguageChangeable {
 	public Music bgm;
 	public boolean autoplay = false;
 	public TiledMap tiledMap;
@@ -81,6 +84,10 @@ public class AppScreen {
 	}
 	
 	public void resize() {
+		
+	}
+	
+	public void chLanguage(Language lang) {
 		
 	}
 }
