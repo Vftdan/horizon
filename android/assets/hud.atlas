@@ -26,10 +26,10 @@ healthbar-L-f
   index: -1
 healthbar-R-f
   rotate: false
-  xy: 37, 0
-  size: 3, 8
-  split: 0, 0, 0, 0
-  orig: 3, 8
+  xy: 35, 0
+  size: 5, 8
+  split: 0, 3, 0, 0
+  orig: 5, 8
   offset: 0, 0
   index: -1
 healthbar-L-e
@@ -42,10 +42,10 @@ healthbar-L-e
   index: -1
 healthbar-R-e
   rotate: false
-  xy: 37, 8
-  size: 3, 8
-  split: 0, 0, 0, 0
-  orig: 3, 8
+  xy: 35, 8
+  size: 5, 8
+  split: 0, 3, 0, 0
+  orig: 5, 8
   offset: 0, 0
   index: -1
 
