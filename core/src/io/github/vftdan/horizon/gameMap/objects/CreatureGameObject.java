@@ -95,6 +95,7 @@ public class CreatureGameObject extends GameObject {
 	public float getHealth() {
 		return health;
 	}
+	public void setHealth(float h) { this.health = h; }
 	public String toString() {
 		return "Creature x = " + cellX + ", y = " + cellY;
 	}

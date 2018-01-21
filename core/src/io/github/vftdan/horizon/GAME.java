@@ -42,6 +42,7 @@ import io.github.vftdan.horizon.gameMap.objects.WallGameObject;
 import io.github.vftdan.horizon.screens.*;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+import static io.github.vftdan.horizon.Utils.ifNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -136,6 +137,7 @@ public class GAME extends AbstractAppAdapter {
 			}
 		}
 		atlas = new TextureAtlas(Gdx.files.internal("ter.atlas"));
+		final TextureAtlas hudatlas = new TextureAtlas(Gdx.files.internal("hud.atlas"));
 		/*batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 		addDisposable(batch);
@@ -234,6 +236,13 @@ public class GAME extends AbstractAppAdapter {
 		FloorGameObject.setDefaultTextureRegion(atlas.findRegion("floor"));
 		WallGameObject.setDefaultTextureRegion(atlas.findRegion("wall"));
 		WallGameObject.setDefaultTextureRegion(atlas.findRegion("wallSide"), 1);
+
+		HealthBarActor.defaultTextures.put(HealthBarActor.class, new HashMap<String, NinePatch>(){{
+			put("el", hudatlas.createPatch("healthbar-L-e"));
+			put("er", hudatlas.createPatch("healthbar-R-e"));
+			put("fl", hudatlas.createPatch("healthbar-L-f"));
+			put("fr", hudatlas.createPatch("healthbar-R-f"));
+		}});
 		
 		//System.out.println(new Vector2(0, 0).equals(new Vector2(0, 0)));
 		//new HashSet<Vector2>(){{add(new Vector2(0, 0)); System.out.println(contains(new Vector2(0, 0)));}};

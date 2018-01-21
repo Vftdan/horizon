@@ -4,10 +4,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 
-import io.github.vftdan.horizon.GAME;
-import io.github.vftdan.horizon.GameSession;
-import io.github.vftdan.horizon.PlayerData;
-import io.github.vftdan.horizon.SerializablePair;
+import io.github.vftdan.horizon.*;
+import io.github.vftdan.horizon.gameMap.GameMap;
 import io.github.vftdan.horizon.gameMap.GameMap.GameObject;
 
 import java.util.ArrayList;
@@ -20,6 +18,7 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 	protected PlayerData data;
 	public long score = 0;
 	private long lastTimeStamp = 0;
+	public HealthBarActor healthBar;
 	private static TextureRegion[] defaultTextureRegions = new TextureRegion[1];
 	public static void setDefaultTextureRegion(TextureRegion tr, int state) {
 		defaultTextureRegions[state] = tr;
@@ -47,6 +46,9 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 	}
 	public PlayerGameObject() {
 		super();
+		maxHealth = 50;
+		setHealth(50);
+		//System.out.println(hashCode());
 		if(getDefaultTextureRegion() != null) {
 			textureRegion = getDefaultTextureRegion();
 			actor.setTexture(textureRegion);
@@ -56,7 +58,7 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 	}
 	public void useData(PlayerData data) {
 		this.data = data;
-		health = data.health;
+		setHealth(data.health);
 		score = data.score;
 		boolean ph = physics;
 		float ad = animationDuration;
@@ -77,6 +79,22 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 			}
 		}
 	}
+
+	public boolean dispatchEvent(String ename, GameMap.GameObjectEvent e) {
+		if(ename == "healthChanged") {
+			if(healthBar != null) {
+				healthBar.health = health / maxHealth;
+			}
+		}
+		return false;
+	}
+
+	public void setHealth(float h) {
+		if(h == health) return;
+		super.setHealth(h);
+		dispatchEvent("healthChanged", null);
+	}
+
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub

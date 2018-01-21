@@ -16,6 +16,8 @@ import io.github.vftdan.horizon.screens.AppScreen;
 import io.github.vftdan.horizon.screens.GameScreen;
 import io.github.vftdan.horizon.screens.PuzzleScreen;
 
+import static io.github.vftdan.horizon.Utils.logged;
+
 public class PuzzleGateGameObject extends AbstractGateGameObject implements ScreenCallerGameObject {
 	
 	public TextureRegion openedTextureRegion;
@@ -82,9 +84,11 @@ public class PuzzleGateGameObject extends AbstractGateGameObject implements Scre
 		if(status == 1) {
 			open();
 		} else if(status == 0) {
+			//System.out.println(cb.source);
 			if(cb != null && cb.source instanceof CreatureGameObject) {
 				CreatureGameObject source = ((CreatureGameObject)cb.source);
-				source.health -= .1;
+				//logged(source.hashCode());
+				source.setHealth(logged(source.getHealth()) - 4);
 				source.dispatchEvent("healthChanged", new GameObjectEvent(this, source));
 			}
 		}

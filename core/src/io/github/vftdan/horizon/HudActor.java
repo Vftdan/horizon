@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class HudActor extends SimpleActor {
+public class HudActor extends ComplexActor {
 	//public static TextureRegion[] defaultTextureRegions;
 	/*TextureRegion textureRegion;
 	boolean flippedX = false;

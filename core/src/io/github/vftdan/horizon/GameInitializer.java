@@ -84,6 +84,7 @@ public class GameInitializer {
         screen.gmap.generate(screen.player);
         screen.player.physics = true;
         screen.player.animationDuration = .1f;
+		screen.player.healthBar = new HealthBarActor();
         screen.viewport = new FitViewport(GAME.instance.screenDims.x, GAME.instance.screenDims.y, screen.cam);
 		TiledMapTileLayer layer = new TiledMapTileLayer(64 * GameObject.cellWidth, 64 * GameObject.cellHeight, GameObject.cellWidth, GameObject.cellHeight);
 		for(GameObject obj: screen.gmap.mainChunk) {
@@ -99,6 +100,7 @@ public class GameInitializer {
 			}
 		});
 		screen.guiStage.addActor(pauseb);
+		screen.guiStage.addActor(screen.player.healthBar);
 		screen.inpProcArray.add(screen.player);
 		screen.inpProcArray.add(screen.guiStage);
 		screen.inpProcArray.add(GAME.instance);
