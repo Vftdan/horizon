@@ -11,7 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 import io.github.vftdan.horizon.gameMap.GameMap;
 import io.github.vftdan.horizon.gameMap.GameMap.GameObject;
@@ -30,6 +32,7 @@ public class GameInitializer {
 	public boolean initNew(long seed) {
 		if(GAME.instance.session == null) GAME.instance.session = new GameSession();
 		GAME.instance.session.seed = seed;
+		GAME.instance.session.playerData = null;
 		main();
 		return true;
 	}
@@ -101,6 +104,7 @@ public class GameInitializer {
 		});
 		screen.guiStage.addActor(pauseb);
 		screen.guiStage.addActor(screen.player.healthBar);
+		screen.guiStage.setViewport(new FitViewport(GAME.instance.unscaleUi(GAME.instance.screenDims.x), GAME.instance.unscaleUi(GAME.instance.screenDims.y), new OrthographicCamera(){{this.setToOrtho(false, GAME.instance.unscaleUi(GAME.instance.screenDims.x), GAME.instance.unscaleUi(GAME.instance.screenDims.y));}}));
 		screen.inpProcArray.add(screen.player);
 		screen.inpProcArray.add(screen.guiStage);
 		screen.inpProcArray.add(GAME.instance);

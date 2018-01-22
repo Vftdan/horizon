@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class HudActor extends ComplexActor {
+	public HudActor() {
+		//this.setScale((float)(GAME.instance.screenDims.y / 320));
+	}
 	//public static TextureRegion[] defaultTextureRegions;
 	/*TextureRegion textureRegion;
 	boolean flippedX = false;

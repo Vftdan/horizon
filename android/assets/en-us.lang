@@ -7,3 +7,7 @@ mainmenu.quit=Quit
 pausemenu.resume=Resume
 pausemenu.save=Save game
 pausemenu.tomain=Exit to menu
+
+gameover.tomain=Exit to menu
+gameover.win=You won!
+gameover.loose=You loose

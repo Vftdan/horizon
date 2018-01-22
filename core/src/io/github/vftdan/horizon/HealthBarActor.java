@@ -15,8 +15,8 @@ public class HealthBarActor extends HudActor {
 	//public static TextureRegion trLf, trRf, trLe, trRe;
 	public float health = 1.0f;
 	public HealthBarActor() {
-		this.setBounds(0, GAME.instance.screenDims.y - 10, 50, 10);
-		//this.setScale((float).5);
+		//int h = (int)(8 * this.getScaleY());
+		this.setBounds(5, 460, 300, 16);
 		elements = new ActorElement[] {
 				new ActorElement(){{setNpName("el");}},
 				new ActorElement(){{setNpName("fl");}},

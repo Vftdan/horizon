@@ -216,7 +216,7 @@ public class GAME extends AbstractAppAdapter {
 		
         Gdx.input.setInputProcessor(inpProcessors);
         skin = new Skin(Gdx.files.internal("uiskin1.json"));
-        skin.getFont("default-font").getData().setScale((float)uiScale);
+        //skin.getFont("default-font").getData().setScale((float)uiScale);
 		MenuScreen mainMenu, pauseMenu, newGameMenu, languageMenu;
 		//GameScreen gameMain;
 		//final GameMapGenerator gmg = new GameMapGenerator();
@@ -336,6 +336,12 @@ public class GAME extends AbstractAppAdapter {
 			
 		};
 		
+		newGameMenu = new MenuScreen(){
+			TextField seedtf = new TextField("", instance.skin);
+			TextButton startBut = new TextButton(curLang.get("newgame.start"), instance.skin);
+		};
+		screens.put("newGame", newGameMenu);
+		
 		mainMenu = new MenuScreen(){
 			//Vector2 playButPos, quitButPos;
 			//Cell<TextButton> playButCell, quitButCell;
@@ -439,6 +445,17 @@ public class GAME extends AbstractAppAdapter {
 		//GameSession gs = (GameSession)GameSaver.loadObject("save3.bin");
 		//System.out.println(gs.playerData.health);
 		//</trying deserialize>
+	}
+	
+	public enum GameTerminateStatus {
+		WIN {
+		}, LOOSE {
+		};
+	}
+	
+	public void terminateGame(GameTerminateStatus status) {
+		if(status == GameTerminateStatus.WIN) AppScreen.openScreen(new GameOverScreen(true));
+		else if(status == GameTerminateStatus.LOOSE) AppScreen.openScreen(new GameOverScreen(false));
 	}
 	
 	public void resize(int width, int height) {

@@ -44,6 +44,12 @@ public abstract class AbstractAppAdapter extends ApplicationAdapter implements I
 			toDispose.add(d);
 		}
 	}
+	public float unscaleUi(float v) {
+		return (float)(v / uiScale);
+	}
+	public float scaleUi(float v) {
+		return (float)(v * uiScale);
+	}
 	@Override
 	public void create() {
 		screenDims.x = Gdx.graphics.getWidth();

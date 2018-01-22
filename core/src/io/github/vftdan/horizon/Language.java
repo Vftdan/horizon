@@ -18,6 +18,7 @@ public class Language {
 	public HashMap<String, String> fileData;
 	public static final Pattern fileLnRe = Pattern.compile("^([\\w\\.]+)\\=(.*)$");
 	public static HashMap<String, Language> languages = new HashMap<String, Language>();
+	@SuppressWarnings("unchecked")
 	public Language(Language defa) {
 		if(defa != null) fileData = (HashMap<String, String>)defa.fileData.clone();
 		else fileData = new HashMap<String, String>();

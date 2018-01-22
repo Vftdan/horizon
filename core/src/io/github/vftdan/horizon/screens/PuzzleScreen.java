@@ -3,8 +3,10 @@ package io.github.vftdan.horizon.screens;
 import javax.script.ScriptException;
 
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import io.github.vftdan.horizon.GAME;
 import io.github.vftdan.horizon.GameSaver;
@@ -18,11 +20,12 @@ public class PuzzleScreen extends AppScreen {
 	//TODO
 	public IScriptExecutor executor;
 	public int childSpacing = 15;
-	public int elemOffsetY = (int)GAME.instance.screenDims.y - 30;
+	public int elemOffsetY = 450;
 	public int elemOffsetX = 30;
 	public PuzzleScreen() {
 		this.screenName = "Puzzle screen";
 		this.guiStage = new Stage();
+		this.guiStage.setViewport(new FitViewport(GAME.instance.unscaleUi(GAME.instance.screenDims.x), GAME.instance.unscaleUi(GAME.instance.screenDims.y), new OrthographicCamera(){{this.setToOrtho(false, GAME.instance.unscaleUi(GAME.instance.screenDims.x), GAME.instance.unscaleUi(GAME.instance.screenDims.y));}}));
 		this.inpProcArray.add(guiStage);
 		//NashornScriptExecutor.classFilter = new WhitelistClassFilter(){{add("io.github.vftdan.horizon.scripting.PuzzleScreenAPI");}};
 		executor = ScriptExecutorManager.instantiateExecutor();

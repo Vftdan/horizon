@@ -88,7 +88,7 @@ public class PuzzleGateGameObject extends AbstractGateGameObject implements Scre
 			if(cb != null && cb.source instanceof CreatureGameObject) {
 				CreatureGameObject source = ((CreatureGameObject)cb.source);
 				//logged(source.hashCode());
-				source.setHealth(logged(source.getHealth()) - 4);
+				source.setHealth(source.getHealth() - 1);
 				source.dispatchEvent("healthChanged", new GameObjectEvent(this, source));
 			}
 		}

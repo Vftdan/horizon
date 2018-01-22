@@ -84,6 +84,7 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 		if(ename == "healthChanged") {
 			if(healthBar != null) {
 				healthBar.health = health / maxHealth;
+				if(health <= 0) GAME.instance.terminateGame(GAME.GameTerminateStatus.LOOSE);
 			}
 		}
 		return false;
