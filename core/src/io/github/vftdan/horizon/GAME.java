@@ -339,6 +339,28 @@ public class GAME extends AbstractAppAdapter {
 		newGameMenu = new MenuScreen(){
 			TextField seedtf = new TextField("", instance.skin);
 			TextButton startBut = new TextButton(curLang.get("newgame.start"), instance.skin);
+			{
+				startBut.addListener(new ClickListener() {
+					public void clicked(InputEvent e, float x, float y) {
+						String s = seedtf.getText();
+						long seed = 0;
+						if(s.equals("")) {
+							seed = (long)(Math.random() * (-1L >>> 1));
+						} else {
+							try {
+								seed = Long.parseLong(s);
+							} catch(NumberFormatException nfe) {
+								//TODO
+							}
+						}
+						instance.initializer.initNew(seed);
+						GameScreen gameMain = GAME.instance.initializer.screen;
+						instance.screens.put("gameMain", gameMain);
+						AppScreen.openScreen(gameMain);
+					}
+				});
+				putActors(seedtf, startBut);
+			}
 		};
 		screens.put("newGame", newGameMenu);
 		
@@ -402,10 +424,11 @@ public class GAME extends AbstractAppAdapter {
 				});*/
 				newGameBut.addListener(new ClickListener() {
 					public void clicked(InputEvent e, float x, float y) {
-						instance.initializer.initNew(0);
+						/*instance.initializer.initNew(0);
 						GameScreen gameMain = GAME.instance.initializer.screen;
 						instance.screens.put("gameMain", gameMain);
-						AppScreen.openScreen(gameMain);
+						AppScreen.openScreen(gameMain);*/
+						AppScreen.openScreen(newGameMenu);
 					}
 				});
 				loadGameBut.addListener(new ClickListener() {
