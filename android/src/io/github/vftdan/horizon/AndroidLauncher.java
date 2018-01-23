@@ -8,6 +8,7 @@ import android.os.Environment;
 import io.github.vftdan.horizon.scripting.ScriptExecutorManager;
 import io.github.vftdan.horizon.scripting.ScriptExecutorManager.ExecutorClasses;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 

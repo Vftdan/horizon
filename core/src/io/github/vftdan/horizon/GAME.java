@@ -128,6 +128,8 @@ public class GAME extends AbstractAppAdapter {
 	//@SuppressWarnings("serial")
 	public void create () {
 		super.create();
+		//TODO
+		Gdx.input.setCatchBackKey(true);
 		FileHandle testTask = GameSaver.child("testtask.js");
 		if(!testTask.exists()) {
 			try {
@@ -337,8 +339,10 @@ public class GAME extends AbstractAppAdapter {
 		};
 		
 		newGameMenu = new MenuScreen(){
+			Label seedtfLb = new Label(curLang.get("newgame.seed"), instance.skin);
 			TextField seedtf = new TextField("", instance.skin);
 			TextButton startBut = new TextButton(curLang.get("newgame.start"), instance.skin);
+			TextButton backBut = new TextButton(curLang.get("newgame.back"), instance.skin);
 			{
 				startBut.addListener(new ClickListener() {
 					public void clicked(InputEvent e, float x, float y) {
@@ -359,7 +363,12 @@ public class GAME extends AbstractAppAdapter {
 						AppScreen.openScreen(gameMain);
 					}
 				});
-				putActors(seedtf, startBut);
+				backBut.addListener(new ClickListener() {
+					public void clicked(InputEvent e, float x, float y) {
+						AppScreen.openScreen(screens.get("mainMenu"));
+					}
+				});
+				putActors(seedtfLb, seedtf, startBut, backBut);
 			}
 		};
 		screens.put("newGame", newGameMenu);
@@ -428,7 +437,7 @@ public class GAME extends AbstractAppAdapter {
 						GameScreen gameMain = GAME.instance.initializer.screen;
 						instance.screens.put("gameMain", gameMain);
 						AppScreen.openScreen(gameMain);*/
-						AppScreen.openScreen(newGameMenu);
+						AppScreen.openScreen(screens.get("newGame"));
 					}
 				});
 				loadGameBut.addListener(new ClickListener() {

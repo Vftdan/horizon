@@ -9,5 +9,9 @@ pausemenu.save=Save game
 pausemenu.tomain=Exit to menu
 
 gameover.tomain=Exit to menu
-gameover.win=You won!
+gameover.won=You won!
 gameover.loose=You loose
+
+newgame.start=Start
+newgame.seed=Seed:
+newgame.back=Back

@@ -48,8 +48,11 @@ public class GameInitializer {
 		}
 	}
 	public boolean initNext() {
-		GAME.instance.session.playerData.level++;
-		main();
+		if(++GAME.instance.session.playerData.level >= 10) {
+			GAME.instance.terminateGame(GAME.GameTerminateStatus.WIN);
+		} else {
+			main();
+		}
 		return true;
 	}
 	private boolean main() {
