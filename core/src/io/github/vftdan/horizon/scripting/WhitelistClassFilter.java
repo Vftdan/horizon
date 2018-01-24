@@ -5,7 +5,7 @@ import java.util.Set;
 
 import jdk.nashorn.api.scripting.ClassFilter;
 
-class WhitelistClassFilter implements ClassFilter {
+public class WhitelistClassFilter implements ClassFilter {
 	
 	private Set<String> allowed = new HashSet<String>();
 	
