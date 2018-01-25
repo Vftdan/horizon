@@ -7,6 +7,7 @@ public class ScriptExecutorManager {
 	private static void initRhino() {
 		if(rhinoInited) return;
 		ContextFactory.initGlobal(new FilteredContextFactory());
+		rhinoInited = true;
 	}
 	public static enum ExecutorClasses {
 		NASHORN, RHINO
@@ -15,14 +16,20 @@ public class ScriptExecutorManager {
 	public static void setExecutorClass(ExecutorClasses c) {
 		curExecutor = c;
 	}
-	public static IScriptExecutor instantiateExecutor(ExecutorClasses c) {
+	public static IScriptExecutor instantiateExecutor(ExecutorClasses c, IClassAccessChecker ch) {
 		switch(c) {
-			case NASHORN: return new NashornScriptExecutor();
-			case RHINO: initRhino(); return new RhinoScriptExecutor();
+			case NASHORN: NashornScriptExecutor.classFilter = new CheckerClassFilter(ch); return new NashornScriptExecutor();
+			case RHINO: initRhino(); RhinoScriptExecutor.shutter = new CheckerClassShutter(ch); return new RhinoScriptExecutor();
 			default: return null;
 		}
 	}
+	public static IScriptExecutor instantiateExecutor(ExecutorClasses c) {
+		return instantiateExecutor(c, null);
+	}
 	public static IScriptExecutor instantiateExecutor() {
 		return instantiateExecutor(curExecutor);
+	}
+	public static IScriptExecutor instantiateExecutor(IClassAccessChecker ch) {
+		return instantiateExecutor(curExecutor, ch);
 	}
 }

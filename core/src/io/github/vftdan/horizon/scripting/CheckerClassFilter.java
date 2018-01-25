@@ -11,7 +11,8 @@ public class CheckerClassFilter implements ClassFilter {
 	
 	@Override
 	public boolean exposeToScripts(String name) {
-		return checker.isAllowed(name);
+		if(checker != null) return checker.isAllowed(name);
+		return true;
 	}
 
 }

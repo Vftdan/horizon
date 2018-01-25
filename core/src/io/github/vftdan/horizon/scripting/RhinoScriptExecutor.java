@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.mozilla.javascript.ClassShutter;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Function;
@@ -24,10 +25,12 @@ public class RhinoScriptExecutor implements IScriptExecutor {
 	ContextFactory cf;
 	Context ctx;
 	Scriptable scope;
+	public static ClassShutter shutter;
 	
 	public RhinoScriptExecutor() {
 		cf = new ContextFactory();
 		ctx = cf.enterContext();
+		if(shutter != null) ctx.setClassShutter(shutter);
 		scope = ctx.initStandardObjects();
 		ctx.setOptimizationLevel(-1);
 		Context.exit();

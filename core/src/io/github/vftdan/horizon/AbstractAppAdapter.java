@@ -1,5 +1,6 @@
 package io.github.vftdan.horizon;
 
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 
 
@@ -55,6 +56,10 @@ public abstract class AbstractAppAdapter extends ApplicationAdapter implements I
 		screenDims.x = Gdx.graphics.getWidth();
 		screenDims.y = Gdx.graphics.getHeight();
 		uiScale = Math.min(screenDims.x / 640, screenDims.y / 480);
+		shd = new ShaderProgram(Gdx.files.internal("vertex.glsl").readString(), Gdx.files.internal("fragment.glsl").readString());
+		if(!shd.isCompiled()) {
+			throw new RuntimeException(shd.getLog());
+		}
 	}
 	@Override
 	public void resize(int width, int height){

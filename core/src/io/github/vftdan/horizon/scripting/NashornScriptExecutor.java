@@ -20,7 +20,7 @@ import jdk.nashorn.api.scripting.*;
 public class NashornScriptExecutor implements IScriptExecutor {
 	ScriptEngine engine;
 	Bindings scope;
-	public static WhitelistClassFilter classFilter;
+	public static ClassFilter classFilter;
 	public NashornScriptExecutor(Bindings s) {
 		//engine = (new ScriptEngineManager()).getEngineByName("js");
 		if(classFilter == null) {

@@ -3,6 +3,7 @@ package io.github.vftdan.horizon.screens;
 import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -19,6 +20,7 @@ import static io.github.vftdan.horizon.GAME.instance;
 
 public class AppScreen implements Language.ILanguageChangeable {
 	public Music bgm;
+	public Color bgc = Color.WHITE;
 	public boolean autoplay = false;
 	public TiledMap tiledMap;
 	public TiledMapRenderer tiledMapRenderer;
@@ -39,6 +41,7 @@ public class AppScreen implements Language.ILanguageChangeable {
 		if(oldBgm != bgm && oldBgm != null) oldBgm.stop();
 		instance.bgm = bgm;
 		if(bgm != null && autoplay) instance.startBgm();
+		instance.bgc = bgc;
 		instance.tiledMap = tiledMap;
 		instance.tiledMapRenderer = tiledMapRenderer;
 		instance.bg_layers = bg_layers;

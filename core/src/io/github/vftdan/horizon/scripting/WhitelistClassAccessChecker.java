@@ -1,5 +1,7 @@
 package io.github.vftdan.horizon.scripting;
 
+import static io.github.vftdan.horizon.Utils.*;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -28,14 +30,14 @@ public class WhitelistClassAccessChecker implements IClassAccessChecker, Iterabl
 	}
 	
 	public boolean isAllowed(String s) {
-		return allowed.contains(s);
+		return logged(allowed.contains(logged(s)));
 	}
 	
 	@Override
 	public boolean isAllowedPrefix(String s) {
 		for(String ac: this) {
 			if(ac.equals(s)) return true;
-			if(ac.length() < s.length() && s.startsWith(ac) && s.charAt(ac.length()) == '.') return true;
+			if(ac.length() < s.length() && s.startsWith(ac) && isOneOf(s.charAt(ac.length()), '.', '$')) return true;
 		}
 		return false;
 	}

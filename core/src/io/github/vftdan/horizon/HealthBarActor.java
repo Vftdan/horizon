@@ -27,8 +27,8 @@ public class HealthBarActor extends HudActor {
 	}
 	public void draw(Batch b, float alpha) {
 		health = clamp(health, 0, 1).floatValue();
-		elements[0].relW = elements[1].relW = elements[2].relX = elements[3].relX = clamp(health, .1 ,.9).floatValue();
-		elements[2].relW = elements[3].relW = 1 - clamp(health, .1 ,.9).floatValue();
+		elements[0].relW = elements[1].relW = elements[2].relX = elements[3].relX = clamp(health, .05 ,.95).floatValue();
+		elements[2].relW = elements[3].relW = 1 - clamp(health, .05 ,.95).floatValue();
 		if(health == 0) {
 			elements[1].visible = elements[3].visible = false;
 			elements[0].visible = elements[2].visible = true;

@@ -54,7 +54,7 @@ public class CreatureGameObject extends GameObject {
 			boundCam.position.set(x + cellWidth / 2, y + cellHeight / 2, 0);
 		}
 	}
-	public void moveToCell(final int x, final int y) {
+	public boolean moveToCell(final int x, final int y) {
 		ArrayList<GameObject> a = new ArrayList<GameObject>();
 		if(physics && chunk != null) {
 			//System.out.println(new Vector2(x, y));
@@ -75,8 +75,8 @@ public class CreatureGameObject extends GameObject {
 							if(!io.interact()) return;
 						} else return;*/
 						ev.target = o;
-						if(o.dispatchEvent("tryEnter", ev)) return;
-						else if(o.isOpaque()) return;
+						if(o.dispatchEvent("tryEnter", ev)) return false;
+						else if(o.isOpaque()) return false;
 					//}
 				}
 			}
@@ -90,6 +90,7 @@ public class CreatureGameObject extends GameObject {
 		sameCellObjects = a;
 		setCellPos(x, y);
 		moveToCell();
+		return true;
 	}
 	protected float health, maxHealth;
 	public float getHealth() {

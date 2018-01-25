@@ -2,17 +2,19 @@ hud.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-stick-fg
+stick-bg
   rotate: false
   xy: 0, 0
   size: 16, 16
+  split: 0, 0, 0, 0
   orig: 16, 16
   offset: 0, 0
   index: -1
-stick-bg
+stick-fg
   rotate: false
   xy: 16, 0
   size: 16, 16
+  split: 0, 0, 0, 0
   orig: 16, 16
   offset: 0, 0
   index: -1

@@ -12,6 +12,7 @@ import io.github.vftdan.horizon.GAME;
 import io.github.vftdan.horizon.GameSaver;
 import io.github.vftdan.horizon.scripting.PuzzleScreenAPI;
 import io.github.vftdan.horizon.scripting.ScriptExecutorManager;
+import io.github.vftdan.horizon.scripting.WhitelistClassAccessChecker;
 import io.github.vftdan.horizon.scripting.IScriptExecutor;
 import io.github.vftdan.horizon.scripting.NashornScriptExecutor;
 //import io.github.vftdan.horizon.scripting.WhitelistClassFilter;
@@ -28,7 +29,9 @@ public class PuzzleScreen extends AppScreen {
 		this.guiStage.setViewport(new FitViewport(GAME.instance.unscaleUi(GAME.instance.screenDims.x), GAME.instance.unscaleUi(GAME.instance.screenDims.y), new OrthographicCamera(){{this.setToOrtho(false, GAME.instance.unscaleUi(GAME.instance.screenDims.x), GAME.instance.unscaleUi(GAME.instance.screenDims.y));}}));
 		this.inpProcArray.add(guiStage);
 		//NashornScriptExecutor.classFilter = new WhitelistClassFilter(){{add("io.github.vftdan.horizon.scripting.PuzzleScreenAPI");}};
-		executor = ScriptExecutorManager.instantiateExecutor();
+		WhitelistClassAccessChecker ch = new WhitelistClassAccessChecker();
+		ch.add("io.github.vftdan.horizon.scripting.PuzzleScreenAPI");
+		executor = ScriptExecutorManager.instantiateExecutor(ch);
 	}
 	public void startAnim(Timer.Task callback) {
 		try {

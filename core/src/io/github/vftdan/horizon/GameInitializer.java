@@ -2,6 +2,7 @@ package io.github.vftdan.horizon;
 
 import java.io.FileNotFoundException;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -67,6 +68,7 @@ public class GameInitializer {
 		} else {
 			screen = new GameScreen();
 		}
+		screen.bgc = new Color(.1f, .1f, .1f, 1);
 		screen.player = new PlayerGameObject();
 		screen.gmap = new GameMap(64, 64);
 		if(GAME.instance.session.playerData != null) {
@@ -84,6 +86,7 @@ public class GameInitializer {
 		//GAME.instance.addDisposable(screen.guiStage, screen.stage, screen.tiledMap, screen.player.actor.textureRegion.getTexture());
 		screen.bg_layers = new int[]{0};
 		screen.tiledMapRenderer = new OrthogonalTiledMapRenderer(screen.tiledMap);
+		//((OrthogonalTiledMapRenderer)screen.tiledMapRenderer).getBatch();
         screen.cam = new OrthographicCamera();
         screen.cam.setToOrtho(false, 64 * GameObject.cellWidth, 64 * GameObject.cellHeight);
         screen.player.boundCam = screen.cam;
@@ -107,12 +110,13 @@ public class GameInitializer {
 		});
 		screen.guiStage.addActor(pauseb);
 		screen.guiStage.addActor(screen.player.healthBar);
+		screen.guiStage.addActor(screen.player.uistick);
 		screen.guiStage.setViewport(new FitViewport(GAME.instance.unscaleUi(GAME.instance.screenDims.x), GAME.instance.unscaleUi(GAME.instance.screenDims.y), new OrthographicCamera(){{this.setToOrtho(false, GAME.instance.unscaleUi(GAME.instance.screenDims.x), GAME.instance.unscaleUi(GAME.instance.screenDims.y));}}));
-		screen.inpProcArray.add(screen.player);
 		screen.inpProcArray.add(screen.guiStage);
+		screen.inpProcArray.add(new GestureDetector(GAME.instance));
+		screen.inpProcArray.add(screen.player);
 		screen.inpProcArray.add(GAME.instance);
 		screen.inpProcArray.add(new GestureDetector(screen.player));
-		screen.inpProcArray.add(new GestureDetector(GAME.instance));
 		return true;
 	}
 }

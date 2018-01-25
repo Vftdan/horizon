@@ -3,6 +3,7 @@ package io.github.vftdan.horizon.gameMap.objects;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 
 import io.github.vftdan.horizon.*;
 import io.github.vftdan.horizon.gameMap.GameMap;
@@ -19,6 +20,7 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 	public long score = 0;
 	private long lastTimeStamp = 0;
 	public HealthBarActor healthBar;
+	public UIStick uistick = new UIStick(); 
 	private static TextureRegion[] defaultTextureRegions = new TextureRegion[1];
 	public static void setDefaultTextureRegion(TextureRegion tr, int state) {
 		defaultTextureRegions[state] = tr;
@@ -96,19 +98,53 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 		dispatchEvent("healthChanged", null);
 	}
 
+	public void update() {
+		long ts = (new Date()).getTime();
+		if(ts < lastTimeStamp) lastTimeStamp = ts;
+		if(ts - lastTimeStamp < 100) return;
+		lastTimeStamp = ts;
+		Pair<Integer, Integer> m = uistick.getState();
+		int pr = uistick.getPrior();
+		boolean flag = false;
+		int x = m.getFirst(), y = m.getSecond();
+		if(pr > 0 && y != 0) {
+			flag = moveToCell(cellX, cellY + y);
+		}
+		if(!flag && x != 0) {
+			if(x > 0) {
+				actor.setFlipedX(true);
+				flag = flag || moveToCell(cellX + 1, cellY);
+			} else {
+				actor.setFlipedX(false);
+				flag = flag || moveToCell(cellX - 1, cellY);
+			}
+		} 
+		if(pr <= 0 && y != 0 && !flag) {
+			flag = flag || moveToCell(cellX, cellY + y);
+		}
+		if(flag) {
+			final PlayerGameObject p = this;
+			Timer.Task t = new Timer.Task() {
+
+				@Override
+				public void run() {
+					p.update();
+				}
+				
+			};
+			Timer.schedule(t, .1f);
+		}
+	}
+	
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
 		//return false;
-		long ts = (new Date()).getTime();
-		if(ts < lastTimeStamp) lastTimeStamp = ts;
-		if(ts - lastTimeStamp < 100) return false;
-		lastTimeStamp = ts;
 		switch(keycode) {
-		case Keys.LEFT: moveToCell(cellX - 1, cellY); actor.setFlipedX(false); break;
-		case Keys.RIGHT: moveToCell(cellX + 1, cellY); actor.setFlipedX(true); break;
-		case Keys.UP: moveToCell(cellX, cellY + 1); break;
-		case Keys.DOWN: moveToCell(cellX, cellY - 1); break;
+		case Keys.LEFT: uistick.keyDown(-1, 0); update(); /*moveToCell(cellX - 1, cellY); actor.setFlipedX(false);*/ break;
+		case Keys.RIGHT: uistick.keyDown(1, 0); update(); /*moveToCell(cellX + 1, cellY); actor.setFlipedX(true);*/ break;
+		case Keys.UP: uistick.keyDown(0, 1); update(); /*moveToCell(cellX, cellY + 1);*/ break;
+		case Keys.DOWN: uistick.keyDown(0, -1); update(); /*moveToCell(cellX, cellY - 1);*/ break;
 		case Keys.SPACE:
 			for(GameObject o: sameCellObjects) {
 				if(o instanceof InteractiveGameObject) {
@@ -123,7 +159,14 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 	@Override
 	public boolean keyUp(int keycode) {
 		// TODO Auto-generated method stub
-		return false;
+		switch(keycode) {
+		case Keys.LEFT: uistick.keyUp(-1, 0); break;
+		case Keys.RIGHT: uistick.keyUp(1, 0); break;
+		case Keys.UP: uistick.keyUp(0, 1); break;
+		case Keys.DOWN: uistick.keyUp(0, -1); break;
+		default: return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -134,20 +177,21 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
+		uistick.touchDown(screenX, (int)GAME.instance.screenDims.y - screenY, pointer);
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
+		uistick.touchUp(screenX, (int)GAME.instance.screenDims.y - screenY, pointer);
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean b = uistick.touchDragged(screenX, (int)GAME.instance.screenDims.y - screenY, pointer);
+		if(b) update();
+		return b;
 	}
 
 	@Override
@@ -182,11 +226,11 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 	}
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		float angle = (new Vector2(deltaX, deltaY)).angle();
+		/*float angle = (new Vector2(deltaX, deltaY)).angle();
 		if(angle < 45 || angle > 325) return keyDown(Keys.RIGHT);
 		if(angle > 45 && angle < 135) return keyDown(Keys.DOWN);
 		if(angle > 135 && angle < 225) return keyDown(Keys.LEFT);
-		if(angle > 225 && angle < 325) return keyDown(Keys.UP);
+		if(angle > 225 && angle < 325) return keyDown(Keys.UP);*/
 		return false;
 	}
 	@Override

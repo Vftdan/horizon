@@ -129,6 +129,10 @@ public class GAME extends AbstractAppAdapter {
 	public void create () {
 		super.create();
 		//TODO
+		//System.out.println(String.join(", ", shd.getUniforms()));
+		//shd.setUniformf("u_regionSize", new Vector2(16f, 16f));
+		//shd.setUniformf("u_atlasSize", new Vector2(64.01f, 64.01f));
+		bgc = new Color(.5f, .5f, .5f, 1);
 		Gdx.input.setCatchBackKey(true);
 		FileHandle testTask = GameSaver.child("testtask.js");
 		if(!testTask.exists()) {
@@ -244,6 +248,10 @@ public class GAME extends AbstractAppAdapter {
 			put("er", hudatlas.createPatch("healthbar-R-e"));
 			put("fl", hudatlas.createPatch("healthbar-L-f"));
 			put("fr", hudatlas.createPatch("healthbar-R-f"));
+		}});
+		UIStick.defaultTextures.put(UIStick.class, new HashMap<String, NinePatch>(){{
+			put("stickbg", hudatlas.createPatch("stick-bg"));
+			put("stickfg", hudatlas.createPatch("stick-fg"));
 		}});
 		
 		//System.out.println(new Vector2(0, 0).equals(new Vector2(0, 0)));
@@ -524,11 +532,14 @@ public class GAME extends AbstractAppAdapter {
 		batch.end();*/
 		cls();
 		
-		//stage.getBatch().setShader(shd);
-		//((BatchTiledMapRenderer)tiledMapRenderer).getBatch().setShader(shd);;
+		//if(stage != null) stage.getBatch().setShader(shd);
+		if(tiledMapRenderer != null) ((BatchTiledMapRenderer)tiledMapRenderer).getBatch().setShader(shd);;
         //((FitViewport)stage.getViewport()).update(screenDims.x, screenDims.y, cam);
 		if(cam != null && viewport != null) {
 	        cam.update();
+			shd.begin();
+			shd.setUniformf("u_scale", scaleUi(cam.zoom));
+			shd.end();
 	        if(tiledMapRenderer != null) {
 	        	tiledMapRenderer.setView(cam);
 	        	if(bg_layers != null) tiledMapRenderer.render(bg_layers);
@@ -562,8 +573,8 @@ public class GAME extends AbstractAppAdapter {
 		case Keys.NUM_3: tiledMap.getLayers().get(2).setVisible(!tiledMap.getLayers().get(2).isVisible()); break;
 		case Keys.NUM_4: tiledMap.getLayers().get(3).setVisible(!tiledMap.getLayers().get(3).isVisible()); break;
 		case Keys.NUM_5: tiledMap.getLayers().get(4).setVisible(!tiledMap.getLayers().get(4).isVisible()); break;*/
-		case Keys.EQUALS: case Keys.PLUS: cam.zoom /= 1.5; break;
-		case Keys.MINUS: cam.zoom *= 1.5; break;
+		case Keys.EQUALS: case Keys.PLUS: cam.zoom /= 1.41; break;
+		case Keys.MINUS: cam.zoom *= 1.41; break;
 		default: return false;
 		}
 		return true;
@@ -584,6 +595,7 @@ public class GAME extends AbstractAppAdapter {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int touchIndex, int button) {
 		// TODO Auto-generated method stub
+		
 		return false;
 		/*if(button != Buttons.LEFT) return false;
 		while(touchIndex >= touches.size()) {
@@ -593,7 +605,7 @@ public class GAME extends AbstractAppAdapter {
 		touches.set(touchIndex, new Vector2(screenX, screenY));
 		return true;*/
 	}
-
+	
 	@Override
 	public boolean touchUp(int screenX, int screenY, int touchIndex, int button) {
 		// TODO Auto-generated method stub
@@ -669,14 +681,29 @@ public class GAME extends AbstractAppAdapter {
 	}
 	
 	long lastZoomTimeStamp = (new Date()).getTime();
+	float lastInitZoomDist = 0;
+	float lastCamZoom = 1;
 	@Override
 	public boolean zoom(float initialDistance, float distance) {
+		if(Utils.isOneOf(0, initialDistance, distance)) return false;
+		if(cam == null) return false;
+		double k;
+		if(initialDistance != lastInitZoomDist) {
+			lastInitZoomDist = initialDistance;
+			lastCamZoom = cam.zoom;
+		}
+		k = distance / initialDistance;
+		k = Math.round(Math.log(k) / Math.log(1.41) * 1.5);
+		k = Math.exp(k * Math.log(1.41));
+		cam.zoom = lastCamZoom / (float)k;
+		return true;
+			/*
 		long ts = (new Date()).getTime();
 		if(ts < lastZoomTimeStamp) lastZoomTimeStamp = ts;
 		if(ts - lastZoomTimeStamp < 100) return false;
 		lastZoomTimeStamp = ts;
 		if(distance < initialDistance) return keyDown(Keys.MINUS);
-		else return keyDown(Keys.PLUS);
+		else return keyDown(Keys.PLUS);*/
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  * Created by Vftdan on 21.01.2018.
  */
 public class ComplexActor extends Actor {
+	public boolean visible = true;
     public static Map<Class<? extends ComplexActor>, Map<String, NinePatch>> defaultTextures = new HashMap<Class<? extends ComplexActor>, Map<String, NinePatch>>();
     Map<String, NinePatch> patches = new HashMap(ifNull(defaultTextures.get(this.getClass()), new HashMap<String, NinePatch>()));
     ActorElement[] elements;
@@ -49,6 +50,7 @@ public class ComplexActor extends Actor {
     }
     public void draw(Batch batch, float alpha) {
         //logged(trs.size());
+    	if(!visible) return;
         for(ActorElement e: elements) {
             drawElement(batch, e);
         }

@@ -11,7 +11,8 @@ public class CheckerClassShutter implements ClassShutter {
 
 	@Override
 	public boolean visibleToScripts(String name) {
-		return checker.isAllowedPrefix(name);
+		if(checker != null) return checker.isAllowedPrefix(name);
+		return true;
 	}
 
 }
