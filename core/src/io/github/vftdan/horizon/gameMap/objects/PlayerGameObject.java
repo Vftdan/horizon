@@ -94,7 +94,7 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 
 	public void setHealth(float h) {
 		if(h == health) return;
-		super.setHealth(h);
+		super.setHealth(Math.min(h, maxHealth));
 		dispatchEvent("healthChanged", null);
 	}
 

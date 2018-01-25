@@ -50,10 +50,11 @@ public class ExitGameObject extends AbstractTiledGameObject implements Interacti
 		((GameScreen)GAME.instance.screens.get("gameMain")).player.prepareData();
 		//GameSaver.saveObject("save4.bin", GAME.instance.session);
 		GAME.instance.initializer.initNext();
-		GameSaver.saveGameState("currentsave.bin");
 		GameScreen scr = (GameScreen)GAME.instance.screens.get("gameMain");
 		AppScreen.openScreen(scr);
 		scr.player.setHealth(GAME.instance.session.playerData.health + 5);
+		scr.player.prepareData();
+		GameSaver.saveGameState("currentsave.bin");
 		return true;
 	}
 }
