@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +28,7 @@ public class Language {
 		this(null);
 	}
 	public void loadFile(FileHandle file) {
-		InputStreamReader isr = new InputStreamReader(file.read());
+		InputStreamReader isr = new InputStreamReader(file.read(), Charset.forName("UTF-8"));
 		BufferedReader br = new BufferedReader(isr);
 		String ln;
 		try {
