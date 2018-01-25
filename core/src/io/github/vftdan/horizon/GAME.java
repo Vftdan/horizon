@@ -262,7 +262,7 @@ public class GAME extends AbstractAppAdapter {
 			//GameMap gmap;
 			{
 				//gmap = new GameMap(64, 64);
-				//gmap.tiledMap = this.tiledMap = new TiledMap();//*/ new TmxMapLoader().load("map1.tmx");
+				//gmap.tiledMap = this.tiledMap = new TiledMap();//*/ //new TmxMapLoader().load("map1.tmx");
 				//gmap.stage = this.stage = new Stage();
 				/*
 				player = new PlayerGameObject(){{}};
