@@ -2,8 +2,19 @@ language.code=ru_ru
 
 mainmenu.newgame=Новая игра
 mainmenu.loadgame=Загрузить игру
+mainmenu.language=Язык
 mainmenu.quit=Выйти
 
 pausemenu.resume=Продолжить
 pausemenu.save=Сохранить
 pausemenu.tomain=Выйти в меню
+
+gameover.tomain=Выйти в меню
+gameover.won=Вы победили!
+gameover.loose=Вы проиграли
+
+newgame.start=Начать
+newgame.seed=Семя генерации:
+newgame.back=Назад
+
+language.back=Назад

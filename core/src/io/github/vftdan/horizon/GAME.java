@@ -217,13 +217,43 @@ public class GAME extends AbstractAppAdapter {
         guiStage.addActor(tb);
         inpProcessors.setProcessors(new Array<InputProcessor>(){{addAll(GAME.instance, guiStage, stage);}});
         Gdx.input.setInputProcessor(inpProcessors);*/
-		curLang = new Language(){{loadFile(Gdx.files.internal("en-us.lang"));}};
+		new Language(){{loadFile(Gdx.files.internal("en-us.lang"));}};
+		curLang = Language.languages.get("en_us");
+		new Language(curLang){{loadFile(Gdx.files.internal("ru-ru.lang"));}};
 		initializer = new GameInitializer();
 		
         Gdx.input.setInputProcessor(inpProcessors);
         skin = new Skin(Gdx.files.internal("uiskin1.json"));
         //skin.getFont("default-font").getData().setScale((float)uiScale);
 		MenuScreen mainMenu, pauseMenu, newGameMenu, languageMenu;
+		languageMenu = new MenuScreen(){
+			TextButton backBtn = new TextButton(curLang.get("language.back"), skin);
+			TextButton lang_en = new TextButton("English", skin);
+			TextButton lang_ru = new TextButton("Russian", skin);
+			{
+				backBtn.addListener(new ClickListener(){
+					public void clicked(InputEvent e, float x, float y) {
+						AppScreen.openScreen(screens.get("mainMenu"));
+					}
+				});
+				lang_en.addListener(new ClickListener(){
+					public void clicked(InputEvent e, float x, float y) {
+						Language.current = GAME.instance.curLang = Language.languages.get("en_us");
+						Language.languageChange();
+					}
+				});
+				lang_ru.addListener(new ClickListener(){
+					public void clicked(InputEvent e, float x, float y) {
+						Language.current = GAME.instance.curLang = Language.languages.get("ru_ru");
+						Language.languageChange();
+					}
+				});
+				putActors(backBtn, lang_en, lang_ru);
+				Language.addChangeables(
+						new TextButtonLanguageChangeable(backBtn, "language.back")
+						);
+		}};
+		screens.put("language", languageMenu);
 		//GameScreen gameMain;
 		//final GameMapGenerator gmg = new GameMapGenerator();
 		//gmg.initRand(new GameSession(), 2);
@@ -338,13 +368,13 @@ public class GAME extends AbstractAppAdapter {
 				}
 			});
 			putActors(resume, savetf, save, tomain);
+			Language.addChangeables(
+					new TextButtonLanguageChangeable(resume, "pausemenu.resume"),
+					new TextButtonLanguageChangeable(save, "pausemenu.save"),
+					new TextButtonLanguageChangeable(tomain, "pausemenu.tomain")
+					);
 		}};
 		screens.put("pause", pauseMenu);
-		
-		languageMenu = new MenuScreen(){
-			TextButton ok = new TextButton(curLang.get("langmenu.ok"), skin){{setWidth(100);}};
-			
-		};
 		
 		newGameMenu = new MenuScreen(){
 			Label seedtfLb = new Label(curLang.get("newgame.seed"), instance.skin);
@@ -377,6 +407,11 @@ public class GAME extends AbstractAppAdapter {
 					}
 				});
 				putActors(seedtfLb, seedtf, startBut, backBut);
+				Language.addChangeables(
+						new LabelLanguageChangeable(seedtfLb, "newgame.seed"),
+						new TextButtonLanguageChangeable(startBut, "newgame.start"),
+						new TextButtonLanguageChangeable(backBut, "newgame.back")
+						);
 			}
 		};
 		screens.put("newGame", newGameMenu);
@@ -387,6 +422,7 @@ public class GAME extends AbstractAppAdapter {
 			TextButton newGameBut = new TextButton(curLang.get("mainmenu.newgame"), instance.skin){{setWidth(100); setVisible(false);}};
 			TextField loadtf = new TextField("currentsave.bin", instance.skin){{setWidth(100); setVisible(false);}};
 			TextButton loadGameBut = new TextButton(curLang.get("mainmenu.loadgame"), instance.skin){{setWidth(100); setVisible(false);}};
+			TextButton langBut = new TextButton(curLang.get("mainmenu.language"), instance.skin){{setWidth(100); setVisible(false);}};
 			TextButton quitBut = new TextButton(curLang.get("mainmenu.quit"), instance.skin){{setWidth(100); setVisible(false);}};
 			//Table table = new Table(){{add(playBut).padBottom(30).width(100).padTop(30); row(); add(quitBut).width(100);}};
 			public void stopAnim(Timer.Task t) {
@@ -421,7 +457,13 @@ public class GAME extends AbstractAppAdapter {
 				table.add(loadGameBut).width(100).padTop(30);
 				table.row();
 				table.add(quitBut).width(100).padTop(30);*/
-				putActors(newGameBut, loadtf, loadGameBut, quitBut);
+				putActors(newGameBut, loadtf, loadGameBut, langBut, quitBut);
+				Language.addChangeables(
+						new TextButtonLanguageChangeable(newGameBut, "mainmenu.newgame"),
+						new TextButtonLanguageChangeable(loadGameBut, "mainmenu.loadgame"),
+						new TextButtonLanguageChangeable(langBut, "mainmenu.language"),
+						new TextButtonLanguageChangeable(quitBut, "mainmenu.quit")
+						);
 				//guiStage = new Stage();
 				instance.addDisposable(guiStage);
 				//table.padTop(30);
@@ -455,6 +497,11 @@ public class GAME extends AbstractAppAdapter {
 							instance.screens.put("gameMain", gameMain);
 							AppScreen.openScreen(gameMain);
 						}
+					}
+				});
+				langBut.addListener(new ClickListener() {
+					public void clicked(InputEvent e, float x, float y) {
+						AppScreen.openScreen(screens.get("language"));
 					}
 				});
 				quitBut.addListener(new ClickListener(){

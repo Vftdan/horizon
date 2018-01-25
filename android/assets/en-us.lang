@@ -2,6 +2,7 @@ language.code=en_us
 
 mainmenu.newgame=New game
 mainmenu.loadgame=Load game
+mainmenu.language=Language
 mainmenu.quit=Quit
 
 pausemenu.resume=Resume
@@ -15,3 +16,5 @@ gameover.loose=You loose
 newgame.start=Start
 newgame.seed=Seed:
 newgame.back=Back
+
+language.back=Back

@@ -52,6 +52,8 @@ public class Language {
 		parseFileLine(ln, fileData);
 	}
 	public String get(String k, Object... A) {
+		if(k == null || k.length() == 0) k = "null";
+		if(k.charAt(0) == '#') return k.substring(1);
 		if(fileData.containsKey(k))
 			return String.format(fileData.get(k), A);
 		else {
