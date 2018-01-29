@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 
 import io.github.vftdan.horizon.GAME;
 import io.github.vftdan.horizon.SerializablePair;
+import io.github.vftdan.horizon.UIStick;
 import io.github.vftdan.horizon.events.CallbackGameObjectEvent;
 import io.github.vftdan.horizon.gameMap.GameMap.*;
 import io.github.vftdan.horizon.screens.AppScreen;
@@ -44,6 +45,8 @@ public class PuzzleGateGameObject extends AbstractGateGameObject implements Scre
 			if(!opaque) return false;
 			if(e instanceof Runnable) cb = (CallbackGameObjectEvent)e;
 			((GameScreen) GAME.instance.screens.get("gameMain")).screenCaller = this;
+			UIStick uistick = ((PlayerGameObject)e.source).uistick;
+			uistick.stopInteraction();
 			AppScreen.openScreen(new PuzzleScreen());
 			return true;
 		}
@@ -81,12 +84,13 @@ public class PuzzleGateGameObject extends AbstractGateGameObject implements Scre
 	public void screenCallback(int status, Object data) {
 		// TODO Auto-generated method stub
 		screenCallbackStatus = status;
+		CreatureGameObject source = ((CreatureGameObject)cb.source);
 		if(status == 1) {
+			((PlayerGameObject)source).addScore(100);
 			open();
 		} else if(status == 0) {
 			//System.out.println(cb.source);
 			if(cb != null && cb.source instanceof CreatureGameObject) {
-				CreatureGameObject source = ((CreatureGameObject)cb.source);
 				//logged(source.hashCode());
 				source.setHealth(source.getHealth() - 1);
 				source.dispatchEvent("healthChanged", new GameObjectEvent(this, source));

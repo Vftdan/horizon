@@ -136,15 +136,24 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 		}
 	}
 	
+	public void setScore(long score) {
+		this.score = score;
+		//System.out.println(score);
+	}
+	
+	public void addScore(long dscore) {
+		setScore(score + dscore);
+	}
+	
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
 		//return false;
 		switch(keycode) {
-		case Keys.LEFT: uistick.keyDown(-1, 0); update(); /*moveToCell(cellX - 1, cellY); actor.setFlipedX(false);*/ break;
-		case Keys.RIGHT: uistick.keyDown(1, 0); update(); /*moveToCell(cellX + 1, cellY); actor.setFlipedX(true);*/ break;
-		case Keys.UP: uistick.keyDown(0, 1); update(); /*moveToCell(cellX, cellY + 1);*/ break;
-		case Keys.DOWN: uistick.keyDown(0, -1); update(); /*moveToCell(cellX, cellY - 1);*/ break;
+		case Keys.LEFT: uistick.onKeyDown(-1, 0); update(); /*moveToCell(cellX - 1, cellY); actor.setFlipedX(false);*/ break;
+		case Keys.RIGHT: uistick.onKeyDown(1, 0); update(); /*moveToCell(cellX + 1, cellY); actor.setFlipedX(true);*/ break;
+		case Keys.UP: uistick.onKeyDown(0, 1); update(); /*moveToCell(cellX, cellY + 1);*/ break;
+		case Keys.DOWN: uistick.onKeyDown(0, -1); update(); /*moveToCell(cellX, cellY - 1);*/ break;
 		case Keys.SPACE:
 			for(GameObject o: sameCellObjects) {
 				if(o instanceof InteractiveGameObject) {
@@ -160,10 +169,10 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 	public boolean keyUp(int keycode) {
 		// TODO Auto-generated method stub
 		switch(keycode) {
-		case Keys.LEFT: uistick.keyUp(-1, 0); break;
-		case Keys.RIGHT: uistick.keyUp(1, 0); break;
-		case Keys.UP: uistick.keyUp(0, 1); break;
-		case Keys.DOWN: uistick.keyUp(0, -1); break;
+		case Keys.LEFT: uistick.onKeyUp(-1, 0); break;
+		case Keys.RIGHT: uistick.onKeyUp(1, 0); break;
+		case Keys.UP: uistick.onKeyUp(0, 1); break;
+		case Keys.DOWN: uistick.onKeyUp(0, -1); break;
 		default: return false;
 		}
 		return true;
@@ -177,19 +186,19 @@ public class PlayerGameObject extends CreatureGameObject implements InputProcess
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		uistick.touchDown(screenX, (int)GAME.instance.screenDims.y - screenY, pointer);
+		uistick.onTouchDown(screenX, (int)GAME.instance.screenDims.y - screenY, pointer);
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		uistick.touchUp(screenX, (int)GAME.instance.screenDims.y - screenY, pointer);
+		uistick.onTouchUp(screenX, (int)GAME.instance.screenDims.y - screenY, pointer);
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		boolean b = uistick.touchDragged(screenX, (int)GAME.instance.screenDims.y - screenY, pointer);
+		boolean b = uistick.onTouchDragged(screenX, (int)GAME.instance.screenDims.y - screenY, pointer);
 		if(b) update();
 		return b;
 	}

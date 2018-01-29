@@ -57,6 +57,7 @@ public class GameInitializer {
 		return true;
 	}
 	private boolean main() {
+		GAME.instance.playing = true;
 		if(screen != null) {
 			screen.stage.dispose();
 			screen.guiStage.dispose();
@@ -108,9 +109,9 @@ public class GameInitializer {
 				AppScreen.openScreen(GAME.instance.screens.get("pause"));
 			}
 		});
-		screen.guiStage.addActor(pauseb);
 		screen.guiStage.addActor(screen.player.healthBar);
 		screen.guiStage.addActor(screen.player.uistick);
+		screen.guiStage.addActor(pauseb);
 		screen.guiStage.setViewport(new FitViewport(GAME.instance.unscaleUi(GAME.instance.screenDims.x), GAME.instance.unscaleUi(GAME.instance.screenDims.y), new OrthographicCamera(){{this.setToOrtho(false, GAME.instance.unscaleUi(GAME.instance.screenDims.x), GAME.instance.unscaleUi(GAME.instance.screenDims.y));}}));
 		screen.inpProcArray.add(screen.guiStage);
 		screen.inpProcArray.add(new GestureDetector(GAME.instance));

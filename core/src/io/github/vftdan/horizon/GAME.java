@@ -540,7 +540,10 @@ public class GAME extends AbstractAppAdapter {
 		};
 	}
 	
+	public boolean playing = false;
+	
 	public void terminateGame(GameTerminateStatus status) {
+		playing = false;
 		if(status == GameTerminateStatus.WIN) AppScreen.openScreen(new GameOverScreen(true));
 		else if(status == GameTerminateStatus.LOOSE) AppScreen.openScreen(new GameOverScreen(false));
 	}

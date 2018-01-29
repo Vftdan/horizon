@@ -37,14 +37,15 @@ public class UIStick extends HudActor {
 		if(isTouchDown) return prior;
 		return 0;
 	}
-	public void touchDown(int x, int y, int ti) {
+	public void onTouchDown(int x, int y, int ti) {
 		touches.put(ti, new Pair<Float, Float>((float)x, (float)y));
 	}
-	public boolean touchDragged(int x, int y, int ti) {
+	public boolean onTouchDragged(int x, int y, int ti) {
 		if(!isTouchDown) {
+			Pair<Float, Float> p = touches.get(ti);
+			if(p == null) return false;
 			isTouchDown = true;
 			selfTouchIndex = ti;
-			Pair<Float, Float> p = touches.get(ti);
 			cx = p.getFirst();
 			cy = p.getSecond();
 		}
@@ -63,7 +64,7 @@ public class UIStick extends HudActor {
 		visible = true;
 		return true;
 	}
-	public void touchUp(int x, int y, int ti) {
+	public void onTouchUp(int x, int y, int ti) {
 		if(isTouchDown && ti == selfTouchIndex) {
 			dx = dy = 0;
 			isTouchDown = false;
@@ -71,12 +72,12 @@ public class UIStick extends HudActor {
 		}
 		touches.remove(ti);
 	}
-	public void keyDown(int keyx, int keyy) {
+	public void onKeyDown(int keyx, int keyy) {
 		if(keyx != 0) kx = signOf(keyx);
 		if(keyy != 0) ky = signOf(keyy);
 		if(kx != 0 || ky != 0) isKeyDown = true;
 	}
-	public void keyUp(int keyx, int keyy) {
+	public void onKeyUp(int keyx, int keyy) {
 		if(signOf(keyx) == kx) kx = 0;
 		if(signOf(keyy) == ky) ky = 0;
 		if(kx == 0 && ky == 0) isKeyDown = false;
@@ -87,5 +88,9 @@ public class UIStick extends HudActor {
 		elements[1].relX = dx * .7f;
 		elements[1].relY = dy * .7f;
 		super.draw(batch, alpha);
+	}
+	
+	public void stopInteraction() {
+		if(isTouchDown) onTouchUp(0, 0, selfTouchIndex);
 	}
 }
