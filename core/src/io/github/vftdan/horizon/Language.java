@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -14,10 +15,15 @@ import java.util.regex.*;
 import com.badlogic.gdx.files.FileHandle;
 
 public class Language {
+	public static boolean useWeakRef = true;
 	public static Language current;
-	private static Set<WeakReference<ILanguageChangeable>> changeables = new HashSet<WeakReference<ILanguageChangeable>>();
+	private static Set<Reference<ILanguageChangeable>> changeables = new HashSet<Reference<ILanguageChangeable>>();
 	public HashMap<String, String> fileData;
 	public static final Pattern fileLnRe = Pattern.compile("^([\\w\\.]+)\\=(.*)$");
+	protected static <T> Reference<T> ref(T o) {
+		if(useWeakRef) return new WeakReference<T>(o);
+		return new StrongReference<T>(o);
+	}
 	public static HashMap<String, Language> languages = new HashMap<String, Language>();
 	@SuppressWarnings("unchecked")
 	public Language(Language defa) {
@@ -68,14 +74,17 @@ public class Language {
 	
 	public static void addChangeables(ILanguageChangeable... A) {
 		for(ILanguageChangeable c: A) {
-			changeables.add(new WeakReference<ILanguageChangeable>(c));
+			changeables.add(ref(c));
 		}
 	}
 	
 	public static void languageChange(Language lang) {
-		for(WeakReference<ILanguageChangeable> cref: changeables) {
+		for(Reference<ILanguageChangeable> cref: changeables) {
 			ILanguageChangeable c = cref.get();
-			if(c == null) continue;
+			if(c == null) {
+				//System.out.println("Object was collected by gc");
+				continue;
+			}
 			try {
 				c.chLanguage(lang);
 			} catch(RuntimeException e) {

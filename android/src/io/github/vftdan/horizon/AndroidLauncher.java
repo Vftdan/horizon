@@ -42,6 +42,7 @@ public class AndroidLauncher extends AndroidApplication {
 			super.onCreate(savedInstanceState);
 			AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 			//GameSaver.externalPath = Environment.getExternalStorageDirectory().getAbsoluteFile().getAbsolutePath() + "/";
+			Language.useWeakRef = false;
 			initialize(new GAME(), config);
 		} catch(RuntimeException e) {
 			handleCrash(e);

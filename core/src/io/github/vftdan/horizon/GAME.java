@@ -233,6 +233,7 @@ public class GAME extends AbstractAppAdapter {
 			{
 				backBtn.addListener(new ClickListener(){
 					public void clicked(InputEvent e, float x, float y) {
+						//System.out.println(((Object)backBtn).hashCode());
 						AppScreen.openScreen(screens.get("mainMenu"));
 					}
 				});
