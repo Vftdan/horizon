@@ -16,7 +16,7 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '0.0.3 alpha'
+    version = '0.0.4 alpha'
     ext {
         appName = "Horizon"
         gdxVersion = '1.9.6'
@@ -48,6 +48,8 @@ project(":desktop") {
 
 project(":android") {
     apply plugin: "android"
+    //versionName = '0.0.4 alpha'
+    //versionCode = 2
 
     configurations { natives }
 
