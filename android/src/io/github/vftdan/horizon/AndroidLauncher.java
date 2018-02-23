@@ -10,6 +10,8 @@ import io.github.vftdan.horizon.scripting.ScriptExecutorManager.ExecutorClasses;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Date;
 
 import com.badlogic.gdx.Gdx;
@@ -17,18 +19,25 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 public class AndroidLauncher extends AndroidApplication {
-	public static void handleCrash(RuntimeException e) {
+	static PrintStream olderr;
+	static String errPath = "./";
+	public static void handleCrash(Exception e) {
+		handleCrash(e.getMessage());
+	}
+
+	public static void handleCrash(String e) {
 		try {
-			File f = new File("/sdcard/Android/data/io.github.vftdan.horizon/files");
+			File f = new File(errPath);
 			f.mkdirs();
-			f = new File("/sdcard/Android/data/io.github.vftdan.horizon/files/horizon_crash.log");
+			f = new File(errPath + "/horizon_crash.log");
 			FileWriter fw = new FileWriter(f, true);
 			fw.write(new Date().toString() + "\n");
-			fw.write(e.getMessage() + "\n");
+			fw.write(e + "\n");
 			fw.flush();
 			fw.close();
+			System.out.println(f.getAbsolutePath());
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			ex.printStackTrace(olderr);
 		}
 	}
 	@Override
@@ -43,6 +52,18 @@ public class AndroidLauncher extends AndroidApplication {
 			AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 			//GameSaver.externalPath = Environment.getExternalStorageDirectory().getAbsoluteFile().getAbsolutePath() + "/";
 			Language.useWeakRef = false;
+			olderr = System.err;
+			System.setErr(new PrintStream(olderr){
+				public void print(Object o) {
+					if(o instanceof Exception) handleCrash((Exception)o);
+					else handleCrash(o + "");
+					super.print(o);
+				}
+				public void print(String s) {
+					handleCrash(s);
+					super.print(s);
+				}
+			});
 			initialize(new GAME(), config);
 		} catch(RuntimeException e) {
 			handleCrash(e);

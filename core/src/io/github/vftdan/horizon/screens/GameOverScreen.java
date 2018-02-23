@@ -27,7 +27,7 @@ public class GameOverScreen extends MenuScreen {
 	public GameOverScreen(boolean won) {
 		this();
 		if(won) titleData.setText(GAME.instance.curLang.get("gameover.won"));
-		else titleData.setText(GAME.instance.curLang.get("gameover.loose"));
-		textInfo.setText(String.format("Score: %d\nSeed: %d", ((GameScreen)GAME.instance.screens.get("gameMain")).player.score, GAME.instance.session.seed));
+		else titleData.setText(GAME.instance.curLang.get("gameover.lose"));
+		textInfo.setText(GAME.instance.curLang.get("gameover.msg", ((GameScreen)GAME.instance.screens.get("gameMain")).player.score, "\n", GAME.instance.session.seed));
 	}
 }

@@ -11,7 +11,8 @@ pausemenu.tomain=Exit to menu
 
 gameover.tomain=Exit to menu
 gameover.won=You won!
-gameover.loose=You lost
+gameover.lose=You lost
+gameover.msg=Score: %d%sSeed: %d
 
 newgame.start=Start
 newgame.seed=Seed:

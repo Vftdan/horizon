@@ -11,7 +11,8 @@ pausemenu.tomain=Выйти в меню
 
 gameover.tomain=Выйти в меню
 gameover.won=Вы победили!
-gameover.loose=Вы проиграли
+gameover.lose=Вы проиграли
+gameover.msg=Очки: %d%sСемя генерации: %d
 
 newgame.start=Начать
 newgame.seed=Семя генерации:
