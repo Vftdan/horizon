@@ -19,3 +19,7 @@ newgame.seed=Семя генерации:
 newgame.back=Назад
 
 language.back=Назад
+
+err.errLoadFile=Ошибка в файле "%s"
+err.scripEx=Ошибка в задании. Свяжитесь с разработчиком задания
+err.NaNSeed=Семя должно быть целым числом

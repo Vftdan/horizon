@@ -19,3 +19,7 @@ newgame.seed=Seed:
 newgame.back=Back
 
 language.back=Back
+
+err.errLoadFile=Error in file "%s"
+err.scripEx=Error in task. Contact task developer
+err.NaNSeed=Seed should be an integer

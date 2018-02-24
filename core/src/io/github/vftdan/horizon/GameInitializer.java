@@ -39,12 +39,15 @@ public class GameInitializer {
 	}
 	public boolean initLoaded(String saveFile) {
 		try {
-			if(!(GameSaver.loadGameState(saveFile))) return false;
+			if(!(GameSaver.loadGameState(saveFile))) {
+				GAME.instance.addErr(GAME.instance.curLang.get("err.errLoadFile", saveFile));
+				return false;
+			}
 			main();
 			screen.player.useData(GAME.instance.session.playerData);
 			return true;
 		} catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return false;
 		}
 	}

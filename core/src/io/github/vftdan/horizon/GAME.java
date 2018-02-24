@@ -44,11 +44,13 @@ import io.github.vftdan.horizon.screens.*;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import static io.github.vftdan.horizon.Utils.ifNull;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
 
 import javax.script.*;
 
@@ -76,6 +78,21 @@ public class GAME extends AbstractAppAdapter {
 	public int[] fg_layers;
 	public GameSession session;
 	public GameInitializer initializer;
+	public Queue<String> errors = new ArrayDeque<String>();
+	public float errTime = 2;
+	public Label errLabel;
+	public Batch errBatch;
+	public void addErr(String e) {
+		errors.add(e);
+		Timer.schedule(new Timer.Task() {
+			
+			@Override
+			public void run() {
+				errors.remove();
+				
+			}
+		}, errTime);
+	}
 	//TiledMapTileLayer gameLayer;
 	//</tiled test>
 	
@@ -224,6 +241,11 @@ public class GAME extends AbstractAppAdapter {
 		
         Gdx.input.setInputProcessor(inpProcessors);
         skin = new Skin(Gdx.files.internal("uiskin1.json"));
+        errBatch = new SpriteBatch();
+        errLabel = new Label("", skin);
+        errLabel.setColor(.9f, .05f, .05f, 1f);
+        errLabel.setPosition(20, 300);
+        addDisposable(errBatch);
         //skin.getFont("default-font").getData().setScale((float)uiScale);
 		MenuScreen mainMenu, pauseMenu, newGameMenu, languageMenu;
 		languageMenu = new MenuScreen(){
@@ -393,7 +415,8 @@ public class GAME extends AbstractAppAdapter {
 							try {
 								seed = Long.parseLong(s);
 							} catch(NumberFormatException nfe) {
-								//TODO
+								addErr(curLang.get("err.NaNSeed"));
+								return;
 							}
 						}
 						instance.initializer.initNew(seed);
@@ -607,6 +630,13 @@ public class GAME extends AbstractAppAdapter {
 			Viewport guiViewport = guiStage.getViewport();
 			guiViewport.update((int)screenDims.x, (int)screenDims.y);
         	guiStage.draw();
+        }
+        if(errLabel != null) {
+        	String e = StringProcessor.join("\n", (String[])errors.toArray(new String[]{}));
+        	errLabel.setText(e);
+        	errBatch.begin();
+        	errLabel.draw(errBatch, 1);
+        	errBatch.end();
         }
 	}
 
